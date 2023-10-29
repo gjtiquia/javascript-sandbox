@@ -3,5 +3,8 @@
   "version": "0.1.0",
   "description": "A repo for writing random JavaScript scripts.",
   "author": "GJTiquia",
-  "license": "MIT"
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ]
 }
