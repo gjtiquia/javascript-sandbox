@@ -2,6 +2,13 @@
     "name": "test-game",
     "version": "0.1.0",
     "author": "GJTiquia",
-    "license": "MIT"
-  }
-  
+    "license": "MIT",
+    "scripts": {
+        "build": "tsup src/index.ts --clean",
+        "start": "node dist/index.js"
+    },
+    "devDependencies": {
+        "tsup": "^7.2.0",
+        "typescript": "^5.2.2"
+    }
+}
