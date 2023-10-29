@@ -1,5 +1,8 @@
+import { TextCanvas } from "./TextCanvas";
+
 function main() {
-    console.log("Hello World!");
+    const textCanvas = new TextCanvas(32, 9);
+    console.log(textCanvas.paint());
 }
 
 main();
