@@ -23,6 +23,10 @@ export class TextCanvas {
         return text;
     }
 
+    public clear(): void {
+        this._characterTable = this.generateEmptyCharacterTable();
+    }
+
     public drawCharacter(x: number, y: number, character: string): void {
         if (character.length > 1) throw new Error(`TextCanvas.drawCharacter: character ${character} is too long!`)
 

@@ -10,4 +10,16 @@ export class Player {
     public moveUp(): void {
         this.position.y++;
     }
+
+    public moveDown(): void {
+        this.position.y--;
+    }
+
+    public moveRight(): void {
+        this.position.x++;
+    }
+
+    public moveLeft(): void {
+        this.position.x--;
+    }
 }

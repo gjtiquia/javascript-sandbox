@@ -49,4 +49,20 @@ describe("TextCanvas Test Suite", () => {
         const textCanvas = new TextCanvas(4, 3);
         expect(() => textCanvas.drawCharacter(10, 10, "asd")).toThrowError();
     })
+
+    it("should clear", () => {
+        const textCanvas = new TextCanvas(4, 3);
+        textCanvas.drawCharacter(0, 0, "x");
+        textCanvas.clear();
+        const output = textCanvas.paint();
+
+        const expectedOutput =
+            "======\n" +
+            "|    |\n" +
+            "|    |\n" +
+            "|    |\n" +
+            "======\n";
+
+        expect(output).toEqual(expectedOutput);
+    })
 })
