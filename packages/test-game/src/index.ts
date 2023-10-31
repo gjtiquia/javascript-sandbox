@@ -2,7 +2,6 @@ import { TextCanvas } from "./TextCanvas";
 import { startListeningToKeypressEvents } from "./KeypressListener";
 import { Player } from "./Player";
 
-
 const _textCanvas = new TextCanvas(33, 9);
 
 // TODO : Probably list of game objects? might be overkill tho, we'll see
