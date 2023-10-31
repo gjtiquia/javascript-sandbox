@@ -1,33 +1,38 @@
 import * as readline from "readline"
+import { EventAction } from "./EventAction";
 
-export async function startListeningToKeypress() {
+export class KeypressEvents {
+    public onUpPressed: EventAction = new EventAction();
+    public onDownPressed: EventAction = new EventAction();
+    public onLeftPressed: EventAction = new EventAction();
+    public onRightPressed: EventAction = new EventAction();
+}
+
+export function startListeningToKeypressEvents(): KeypressEvents {
+    const keypressEvents = new KeypressEvents();
+
     readline.emitKeypressEvents(process.stdin);
 
     process.stdin.setRawMode(true);
-    process.stdin.on('keypress', keypressEventHandler);
+    process.stdin.on('keypress', (str, key) => keypressEventHandler(str, key, keypressEvents));
+
+    return keypressEvents;
 }
 
-function keypressEventHandler(str: string, key: readline.Key) {
+function keypressEventHandler(str: string, key: readline.Key, keypressEvents: KeypressEvents) {
     // "Raw" mode so we must do our own kill switch
     if (key.ctrl && key.name === "c")
         process.exit();
 
-    // TODO : Delete this when finished implementing
-    console.log(key.name);
-
-    // TODO : Should implement a generic event system like C#, where it is easy to invoke, subscribe and unsubscribe from
-
-    /*
     if (key.name === "w" || key.name === "up")
-        onUpPressedEvent.invoke();
+        keypressEvents.onUpPressed.invoke();
 
     if (key.name === "a" || key.name === "left")
-        onLeftPressedEvent.invoke();
+        keypressEvents.onLeftPressed.invoke();
 
     if (key.name === "s" || key.name === "down")
-        onDownPressedEvent.invoke();
+        keypressEvents.onDownPressed.invoke();
 
     if (key.name === "d" || key.name === "right")
-        onRightPressedEvent.invoke();
-    */
+        keypressEvents.onRightPressed.invoke();
 }
