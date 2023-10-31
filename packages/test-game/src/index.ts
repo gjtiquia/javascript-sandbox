@@ -9,7 +9,8 @@ function render() {
 }
 
 async function main() {
-    startListeningToKeypress();
+    // startListeningToKeypress();
+    render();
 }
 
 main();
