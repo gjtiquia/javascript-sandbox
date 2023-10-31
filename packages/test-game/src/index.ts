@@ -4,7 +4,7 @@ import { startListeningToKeypressEvents } from "./KeypressListener";
 // TODO : Implement separate game business rules, where it then translates game info to text canvas and render
 function render() {
     const textCanvas = new TextCanvas(33, 9);
-    textCanvas.drawCharacter(16, 0, "K");
+    textCanvas.drawCharacter(16, 4, "K");
     console.log(textCanvas.paint());
 }
 

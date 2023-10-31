@@ -24,6 +24,8 @@ export class TextCanvas {
     }
 
     public drawCharacter(x: number, y: number, character: string): void {
+        if (character.length > 1) throw new Error(`TextCanvas.drawCharacter: character ${character} is too long!`)
+
         if (x < 0 || x >= this._properties.width) return;
         if (y < 0 || y >= this._properties.height) return;
 
