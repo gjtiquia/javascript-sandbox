@@ -24,6 +24,9 @@ function keypressEventHandler(str: string, key: readline.Key, keypressEvents: Ke
     if (key.ctrl && key.name === "c")
         process.exit();
 
+    if (key.name === "escape")
+        process.exit();
+
     if (key.name === "w" || key.name === "up")
         keypressEvents.onUpPressed.invoke();
 
