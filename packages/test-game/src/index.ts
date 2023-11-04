@@ -41,7 +41,7 @@ function render() {
     _textCanvas.clear();
 
     // TODO : position should be translated via Camera
-    _textCanvas.drawCharacter(_player.position.x, _player.position.y, "K");
+    _textCanvas.drawCharacter(_player.position.x, _player.position.y, "@");
 
     console.clear();
     console.log(_textCanvas.paint());
