@@ -174,7 +174,7 @@ Face/Select Right
 ```none
    
  @ ]<tooltip>
-e    
+    
 ```
 
 Face/Select Left
