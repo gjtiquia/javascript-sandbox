@@ -1,5 +1,12 @@
-export function sum(a: number, b: number) {
-    return a + b;
-}
+import express, { Express, Request, Response } from "express";
+import path from "path";
 
-console.log("Hello World! 1 + 2 = ", sum(1, 2));
+const app: Express = express();
+const PORT = 3000;
+
+app.use("/", express.static(path.join(__dirname, '../../frontend')));
+
+app.listen(PORT, () => {
+    console.log(`[server]: Server is running at http://localhost:${PORT}`);
+    console.log('[server]: Press Ctrl+C to quit.');
+});
