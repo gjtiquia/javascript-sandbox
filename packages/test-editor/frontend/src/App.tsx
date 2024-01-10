@@ -1,27 +1,25 @@
 import { ReactNode, useState } from "react"
+import { useQuery } from "@tanstack/react-query";
 
 
 function App() {
   const [path, setPath] = useState("");
-  const [files, setFiles] = useState(["No files"])
 
-  // Quite a lot of error handling to do... should probably play around with ReactQuery?
-  async function onRefreshClickedAsync() {
-    console.log("Fetching...");
-    try {
+  const fileQuery = useQuery({
+    enabled: false, // Disable query from automaticaly running
+    retry: false, // No need to retry if fail
+    queryKey: ["getFiles"],
+    queryFn: async () => {
       const response = await fetch(`/api/files?path=${path}`);
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage)
+      }
 
       // How to guarantee the type here... tRPC? common type folder with TypeScript? it works but so fragile
-      const files = await response.json() as string[];
-
-      console.log("Fetched!", files);
-
-      setFiles(files)
+      return await response.json() as string[];
     }
-    catch (e) {
-      console.log("Failed!");
-    }
-  }
+  })
 
   return (
     <div className="p-5 flex flex-col gap-5">
@@ -44,17 +42,24 @@ function App() {
             value={path}
           />
 
-          <button
-            className="text-slate-600 hover:text-slate-500 px-2"
-            onClick={(onRefreshClickedAsync)}
-          >
-            Refresh
-          </button>
+          {!fileQuery.isRefetching &&
+            <button
+              className="text-slate-600 hover:text-slate-500 px-2"
+              onClick={() => fileQuery.refetch()}
+            >
+              Refresh
+            </button>
+          }
         </div>
 
-        <ul>
-          {files.map(file => <ListElement>{file}</ListElement>)}
-        </ul>
+        {fileQuery.isPending && <p>No files</p>}
+        {fileQuery.isRefetching && <p>Refreshing...</p>}
+        {fileQuery.isError && !fileQuery.isRefetching && <p className="text-red-500">Error: {fileQuery.error.message}</p>}
+        {fileQuery.isSuccess &&
+          <ul>
+            {fileQuery.data.map(file => <ListElement>{file}</ListElement>)}
+          </ul>
+        }
 
       </div>
     </div>

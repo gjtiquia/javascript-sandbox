@@ -21,13 +21,13 @@ app.get("/api/files", async (req: Request, res: Response): Promise<void> => {
 
     const pathExists = fs.existsSync(path);
     if (!pathExists) {
-        res.status(400).send("Path does not exist!");
+        res.status(400).send(`Path '${path}' does not exist!`);
         return;
     }
 
     const isDirectory = fs.lstatSync(path).isDirectory();
     if (!isDirectory) {
-        res.status(400).send("Path is not a directory!");
+        res.status(400).send(`Path '${path}' is not a directory!`);
         return;
     }
 
