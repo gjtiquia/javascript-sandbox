@@ -5,8 +5,18 @@ function App() {
   const [path, setPath] = useState("");
   const [files, setFiles] = useState(["No files"])
 
-  function onRefreshClicked() {
-    setFiles(["testing"])
+  async function onRefreshClickedAsync() {
+    console.log("Fetching...");
+    try {
+      const response = await fetch(`/api/files?path=${path}`);
+      const parsedResponse = await response.text();
+      console.log("Fetched!", parsedResponse);
+
+      setFiles(["testing"])
+    }
+    catch (e) {
+      console.log("Failed!");
+    }
   }
 
   return (
@@ -32,7 +42,7 @@ function App() {
 
           <button
             className="text-slate-600 hover:text-slate-500 px-2"
-            onClick={(onRefreshClicked)}
+            onClick={(onRefreshClickedAsync)}
           >
             Refresh
           </button>
