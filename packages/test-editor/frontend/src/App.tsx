@@ -5,14 +5,18 @@ function App() {
   const [path, setPath] = useState("");
   const [files, setFiles] = useState(["No files"])
 
+  // Quite a lot of error handling to do... should probably play around with ReactQuery?
   async function onRefreshClickedAsync() {
     console.log("Fetching...");
     try {
       const response = await fetch(`/api/files?path=${path}`);
-      const parsedResponse = await response.text();
-      console.log("Fetched!", parsedResponse);
 
-      setFiles(["testing"])
+      // How to guarantee the type here... tRPC? common type folder with TypeScript? it works but so fragile
+      const files = await response.json() as string[];
+
+      console.log("Fetched!", files);
+
+      setFiles(files)
     }
     catch (e) {
       console.log("Failed!");

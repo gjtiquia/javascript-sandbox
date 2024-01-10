@@ -1,3 +1,5 @@
+import fs from "fs";
+import fsAsync from "fs/promises";
 import express, { Express, Request, Response } from "express";
 
 const app: Express = express();
@@ -7,11 +9,30 @@ interface FileQuery {
     path?: string
 }
 
-app.get("/api/files", (req: Request, res: Response) => {
+app.get("/api/files", async (req: Request, res: Response): Promise<void> => {
     const path = (req.query as FileQuery).path;
+
     console.log("Path Query:", path);
 
-    res.status(200).json({ path })
+    if (!path) {
+        res.status(400).send("Path not undefined!");
+        return;
+    }
+
+    const pathExists = fs.existsSync(path);
+    if (!pathExists) {
+        res.status(400).send("Path does not exist!");
+        return;
+    }
+
+    const isDirectory = fs.lstatSync(path).isDirectory();
+    if (!isDirectory) {
+        res.status(400).send("Path is not a directory!");
+        return;
+    }
+
+    const files = await fsAsync.readdir(path);
+    res.status(200).json(files)
 })
 
 app.listen(PORT, () => {
