@@ -4,6 +4,11 @@
   "author": "GJ Tiquia",
   "license": "MIT",
   "workspaces": [
+    "frontend",
     "node-runtime"
-  ]
+  ],
+  "scripts": {
+    "start:server": "cd node-runtime && npm start",
+    "start:client": "cd frontend && npm run dev"
+  }
 }
