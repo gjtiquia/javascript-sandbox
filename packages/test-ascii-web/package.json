@@ -1,0 +1,10 @@
+{
+  "name": "test-ascii-web",
+  "version": "0.1.0",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "start:frontend": "cd frontend && npm run dev"
+  }
+}
