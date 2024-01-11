@@ -1,14 +1,12 @@
 import { ReactNode, useState } from "react"
-import { useQuery } from "@tanstack/react-query";
-
+import { trpc } from "./trpc";
 
 function App() {
   const [path, setPath] = useState("");
 
-  const fileQuery = useQuery({
+  const fileQuery = trpc.getFiles.useQuery(path, {
     enabled: false, // Disable query from automaticaly running
     retry: false, // No need to retry if fail
-    queryKey: ["getFiles"],
     queryFn: async () => {
       const response = await fetch(`/api/files?path=${path}`);
       if (!response.ok) {
@@ -52,12 +50,12 @@ function App() {
           }
         </div>
 
-        {fileQuery.isPending && <p>No files</p>}
+        {fileQuery.isLoading && <p>No files</p>}
         {fileQuery.isRefetching && <p>Refreshing...</p>}
         {fileQuery.isError && !fileQuery.isRefetching && <p className="text-red-500">Error: {fileQuery.error.message}</p>}
         {fileQuery.isSuccess &&
           <ul>
-            {fileQuery.data.map(file => <ListElement>{file}</ListElement>)}
+            {fileQuery.data.map((file, index) => <ListElement key={index}>{file}</ListElement>)}
           </ul>
         }
 
@@ -66,9 +64,14 @@ function App() {
   )
 }
 
-function ListElement({ children }: { children: ReactNode }) {
+interface IListElementProps {
+  key: React.Key
+  children: ReactNode
+}
+
+function ListElement({ key, children }: IListElementProps) {
   return (
-    <li className="bg-slate-800 text-slate-100 px-2 pb-1 first:pt-1 first:rounded-t-md last:rounded-b-md">
+    <li key={key} className="bg-slate-800 text-slate-100 px-2 pb-1 first:pt-1 first:rounded-t-md last:rounded-b-md">
       {children}
     </li>
   )
