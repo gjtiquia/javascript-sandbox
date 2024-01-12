@@ -1,16 +1,28 @@
 import { useState } from "react";
 
-export function DPad() {
+interface IDPadProps {
+    onUpPressDown: () => void,
+    onDownPressDown: () => void,
+    onLeftPressDown: () => void,
+    onRightPressDown: () => void,
+}
+
+export function DPad(props: IDPadProps) {
     return <div className="flex flex-col items-center gap-3">
-        <DButton />
+        <DButton onPressDown={props.onUpPressDown} />
         <div className="flex gap-3">
-            <DButton />
-            <DButton />
-            <DButton />
+            <DButton onPressDown={props.onLeftPressDown} />
+            <DButton onPressDown={props.onDownPressDown} />
+            <DButton onPressDown={props.onRightPressDown} />
         </div>
     </div>;
 }
-function DButton() {
+
+interface IDButtonProps {
+    onPressDown: () => void
+}
+
+function DButton(props: IDButtonProps) {
     const [isPressed, setIsPressed] = useState(false);
 
     const buttonAscii = isPressed ?
@@ -26,13 +38,21 @@ function DButton() {
         "#         #\n" +
         "###########\n";
 
-
     return <button
         className="text-stone-500"
-        onMouseDown={() => setIsPressed(true)}
         onMouseUp={() => setIsPressed(false)}
+        onMouseDown={() => {
+            // This works in PC only to set button ascii
+            setIsPressed(true);
+
+            // This also gets called in mobile
+            props.onPressDown();
+        }}
         onMouseLeave={() => setIsPressed(false)}
-        onTouchStart={() => setIsPressed(true)}
+        onTouchStart={() => {
+            // This works in mobile only to set button ascii
+            setIsPressed(true)
+        }}
         onTouchEnd={() => setIsPressed(false)}
     >
         <code className="whitespace-pre-wrap select-none">

@@ -17,6 +17,26 @@ function App() {
     render();
   }, [])
 
+  function onUpPressed() {
+    _player.moveUp();
+    render();
+  }
+
+  function onDownPressed() {
+    _player.moveDown();
+    render();
+  }
+
+  function onLeftPressed() {
+    _player.moveLeft();
+    render();
+  }
+
+  function onRightPressed() {
+    _player.moveRight();
+    render();
+  }
+
   function render() {
     _textCanvas.clear();
     _textCanvas.drawCharacter(_player.position.x, _player.position.y, "@");
@@ -35,7 +55,12 @@ function App() {
       </div>
 
       <div className="pb-2">
-        <DPad />
+        <DPad
+          onUpPressDown={onUpPressed}
+          onDownPressDown={onDownPressed}
+          onLeftPressDown={onLeftPressed}
+          onRightPressDown={onRightPressed}
+        />
       </div>
 
       <div className="w-full max-w-prose">
