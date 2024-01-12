@@ -5,16 +5,10 @@ import { TextCanvas } from './TextCanvas';
 
 function App() {
 
-  const renderText =
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n" +
-    "******************************\n"
+  const backgroundChar = ".";
+  const canvasWidth = 30;
+  const canvasHeight = 10;
+  const renderText = (backgroundChar.repeat(canvasWidth) + "\n").repeat(canvasHeight)
 
   return (
     <div className="h-full p-2 flex flex-col items-center bg-stone-950">
