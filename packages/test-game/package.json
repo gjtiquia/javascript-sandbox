@@ -3,10 +3,11 @@
     "version": "0.1.0",
     "author": "GJTiquia",
     "license": "MIT",
+    "main": "src/index.ts",
     "scripts": {
         "test": "jest --verbose",
-        "build": "tsup src/index.ts --clean",
-        "start": "npm run build && node dist/index.js"
+        "build": "tsup src/index.ts src/main.ts --clean",
+        "start": "npm run build && node dist/main.js"
     },
     "devDependencies": {
         "@types/jest": "^29.5.6",
