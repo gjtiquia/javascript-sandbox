@@ -1,14 +1,28 @@
+import { useEffect, useState } from 'react';
 import { DPad } from './DPad';
 import { Footer } from './Footer';
 import { Header } from './Header';
-import { TextCanvas } from './TextCanvas';
+import { TextCanvas as TextCanvasElement } from './TextCanvas';
+
+import { Player, TextCanvas } from "test-game";
+
+const _textCanvas = new TextCanvas(30, 10);
+const _player = new Player();
 
 function App() {
 
-  const backgroundChar = ".";
-  const canvasWidth = 30;
-  const canvasHeight = 10;
-  const renderText = (backgroundChar.repeat(canvasWidth) + "\n").repeat(canvasHeight)
+  const [renderText, setRenderText] = useState("");
+
+  useEffect(() => {
+    render();
+  }, [])
+
+  function render() {
+    _textCanvas.clear();
+    _textCanvas.drawCharacter(_player.position.x, _player.position.y, "@");
+
+    setRenderText(_textCanvas.paint());
+  }
 
   return (
     <div className="h-full p-2 flex flex-col items-center bg-stone-950">
@@ -17,7 +31,7 @@ function App() {
       </div>
 
       <div className="flex-grow flex flex-col justify-center items-center">
-        <TextCanvas text={renderText} />
+        <TextCanvasElement text={renderText} />
       </div>
 
       <div className="pb-2">
