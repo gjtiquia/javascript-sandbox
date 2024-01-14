@@ -14,13 +14,10 @@ export function EmailSignIn(props: EmailSignInProps) {
     async function signUpNewUserAsync() {
         setIsLoading(true);
 
-        const { data, error } = await props.authClient.signUpAsync({
+        await props.authClient.signUpAsync({
             email: email,
             password: password
         });
-
-        console.log("signUpData", data);
-        console.log("signUpError", error);
 
         setIsLoading(false);
     }
@@ -28,13 +25,10 @@ export function EmailSignIn(props: EmailSignInProps) {
     async function signInWithEmailAsync() {
         setIsLoading(true);
 
-        const { data, error } = await props.authClient.signInWithPasswordAsync({
+        await props.authClient.signInWithPasswordAsync({
             email: email,
             password: password,
         });
-
-        console.log("signInData", data);
-        console.log("signInError", error);
 
         setIsLoading(false);
     }

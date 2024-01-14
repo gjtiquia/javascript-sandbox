@@ -18,23 +18,31 @@ export class AuthClient {
     }
 
     public async signOutAsync() {
-        return await this._supabase.auth.signOut();
+        const response = await this._supabase.auth.signOut();
+
+        console.log("signOut response data", response.error);
     }
 
     public async signUpAsync(credentials: SignUpWithPasswordCredentials) {
-        return await this._supabase.auth.signUp({
+        const response = await this._supabase.auth.signUp({
             email: credentials.email,
             password: credentials.password,
             options: {
                 emailRedirectTo: 'https://supabase.com/docs/guides/auth'
             }
         })
+
+        console.log("signUp response data", response.data);
+        console.log("signUp response error", response.error);
     }
 
     public async signInWithPasswordAsync(credentials: SignInWithPasswordCredentials) {
-        return await this._supabase.auth.signInWithPassword({
+        const response = await this._supabase.auth.signInWithPassword({
             email: credentials.email,
             password: credentials.password
         })
+
+        console.log("signIn response data", response.data);
+        console.log("signIn response error", response.error);
     }
 }

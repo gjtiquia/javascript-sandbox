@@ -11,10 +11,7 @@ export function MainPage(props: MainPageProps) {
 
     async function signOutAsync() {
         setIsLoading(true);
-
-        const { error } = await props.authClient.signOutAsync();
-        console.log(error);
-
+        await props.authClient.signOutAsync();
         setIsLoading(false);
     }
 
