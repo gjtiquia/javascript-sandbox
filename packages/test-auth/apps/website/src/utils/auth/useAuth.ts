@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabaseClient } from "./supabase";
 import { AuthClient } from "./AuthClient";
+import { AuthSession } from "./AuthSession";
 
-export interface Auth {
+interface Auth {
     isInitializing: boolean
     isSignedIn: boolean
-    client: AuthClient
+    client: AuthClient,
+    session?: AuthSession
 }
 
 export function useAuth(): Auth {
@@ -27,12 +29,10 @@ export function useAuth(): Auth {
         return () => data.subscription.unsubscribe();
     }, []);
 
-    const isSignedIn = session !== null;
-    const authClient = new AuthClient(supabaseClient);
-
     return {
         isInitializing,
-        isSignedIn,
-        client: authClient
+        isSignedIn: session !== null,
+        client: new AuthClient(supabaseClient),
+        session: session === null ? undefined : new AuthSession(session)
     };
 }

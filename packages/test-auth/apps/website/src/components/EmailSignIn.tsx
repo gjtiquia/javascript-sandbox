@@ -8,6 +8,7 @@ interface EmailSignInProps {
 export function EmailSignIn(props: EmailSignInProps) {
 
     const [isLoading, setIsLoading] = useState(false);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -22,7 +23,7 @@ export function EmailSignIn(props: EmailSignInProps) {
         setIsLoading(false);
     }
 
-    async function signInWithEmailAsync() {
+    async function signInAsync() {
         setIsLoading(true);
 
         await props.authClient.signInWithPasswordAsync({
@@ -37,6 +38,8 @@ export function EmailSignIn(props: EmailSignInProps) {
         return <p>Loading...</p>;
 
     return <>
+        <h2>Email Sign In</h2>
+
         <div>
             <span>Email: </span>
             <input
@@ -58,7 +61,7 @@ export function EmailSignIn(props: EmailSignInProps) {
         </button>
 
         <button
-            onClick={() => signInWithEmailAsync()}
+            onClick={() => signInAsync()}
         >
             Sign In
         </button>
