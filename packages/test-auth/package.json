@@ -7,6 +7,8 @@
     "packages/**"
   ],
   "scripts": {
+    "start:server": "cd apps/server && npm run start",
+    "build:server": "cd apps/server && npm run build",
     "dev:website": "cd apps/website && npm run dev:host",
     "dev:server": "cd apps/server && npm run dev"
   }
