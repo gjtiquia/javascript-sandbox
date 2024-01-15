@@ -1,5 +1,7 @@
 # Test Auth
 
+A test implementation of using Authentication with a frontend app and backend server.
+
 Deployed website on Netlify at <https://test-auth-website.netlify.app/>.
 
 Deployed server at Railway ([Railway Docs](https://railway.app/)).
