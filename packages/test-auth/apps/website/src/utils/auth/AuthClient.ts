@@ -30,7 +30,8 @@ export class AuthClient {
             email: credentials.email,
             password: credentials.password,
             options: {
-                emailRedirectTo: 'https://supabase.com/docs/guides/auth'
+                // Must be specified in redirect URLs in Supabase dashboard
+                // emailRedirectTo: 'https://supabase.com/docs/guides/auth'
             }
         })
 
@@ -53,6 +54,10 @@ export class AuthClient {
     public async signInWithGoogleAsync() {
         const response = await this._supabase.auth.signInWithOAuth({
             provider: 'google',
+            options: {
+                // Must be specified in redirect URLs in Supabase dashboard
+                // redirectTo: "https://supabase.com/docs/guides/auth"
+            }
         })
 
         console.log("google sign in response data", response.data);
