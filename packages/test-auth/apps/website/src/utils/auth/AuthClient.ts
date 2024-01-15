@@ -20,7 +20,9 @@ export class AuthClient {
     public async signOutAsync() {
         const response = await this._supabase.auth.signOut();
 
-        console.log("signOut response data", response.error);
+        if (response.error) {
+            // TODO : If error, throw new Error, which will be handled by ReactQuery
+        }
     }
 
     public async signUpAsync(credentials: SignUpWithPasswordCredentials) {
@@ -35,10 +37,11 @@ export class AuthClient {
             }
         })
 
-        console.log("signUp response data", response.data);
-        console.log("signUp response error", response.error);
-
         // Note: A fake user object is returned from Supabase if an existing user already exists
+
+        if (response.error) {
+            // TODO : If error, throw new Error, which will be handled by ReactQuery
+        }
     }
 
     public async signInWithPasswordAsync(credentials: SignInWithPasswordCredentials) {
@@ -47,8 +50,9 @@ export class AuthClient {
             password: credentials.password
         })
 
-        console.log("signIn response data", response.data);
-        console.log("signIn response error", response.error);
+        if (response.error) {
+            // TODO : If error, throw new Error, which will be handled by ReactQuery
+        }
     }
 
     public async signInWithGoogleAsync() {
@@ -60,7 +64,8 @@ export class AuthClient {
             }
         })
 
-        console.log("google sign in response data", response.data);
-        console.log("google sign in response error", response.error);
+        if (response.error) {
+            // TODO : If error, throw new Error, which will be handled by ReactQuery
+        }
     }
 }

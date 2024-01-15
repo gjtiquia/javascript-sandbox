@@ -25,7 +25,6 @@ export function useAuth(): Auth {
         // Auto-refreshes access tokens
         const { data } = supabaseClient.auth.onAuthStateChange((_event, session) => {
             setSession(session);
-            console.log("session", session);
         });
 
         return () => data.subscription.unsubscribe();

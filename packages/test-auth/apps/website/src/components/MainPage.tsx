@@ -11,6 +11,7 @@ export function MainPage(props: MainPageProps) {
     const profileQuery = useQuery({
         queryKey: ["profileQuery", props.authSession.userId],
         queryFn: async () => {
+
             const response = await fetch("http://localhost:3000/profile", {
                 method: "get",
                 headers: new Headers({
@@ -18,10 +19,7 @@ export function MainPage(props: MainPageProps) {
                 }),
             });
 
-            console.log(response);
-
-            const responseObject = await response.json();
-            return JSON.stringify(responseObject);
+            return await response.json();
         }
     })
 
@@ -41,7 +39,7 @@ export function MainPage(props: MainPageProps) {
         <p>User ID: {props.authSession.userId}</p>
 
         <p>Backend Data:</p>
-        <p>{profileQuery.data}</p>
+        <p>{JSON.stringify(profileQuery.data)}</p>
 
         <button onClick={() => signOutMutation.mutate()}>
             Sign Out
