@@ -5,5 +5,9 @@
   "workspaces": [
     "apps/**",
     "packages/**"
-  ]
+  ],
+  "scripts": {
+    "dev:website": "cd apps/website && npm run dev:host",
+    "dev:server": "cd apps/server && npm run dev"
+  }
 }
