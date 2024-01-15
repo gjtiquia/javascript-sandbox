@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { CommonRequest, CommonResponse } from "../types";
 
-export function profileController(req: Request, res: Response) {
-    const userId = req.body.userId;
-    console.log("GET /profile => userId:", userId);
+export function profileController(req: CommonRequest, res: CommonResponse) {
+    const userId = res.locals.userId;
 
-    return res.json({ userId: req.body.userId });
+    console.log("GET /profile => userId: ", userId);
+
+    return res.json({ userId: userId });
 }

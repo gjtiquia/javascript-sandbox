@@ -1,12 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import type { CommonRequest, CommonResponse } from "../types";
 
-interface RequestHeader {
-    authorization?: string;
-}
-export function authenticateToken(req: Request, res: Response, next: NextFunction) {
 
-    const authHeader = (req.headers as RequestHeader).authorization;
+export function authenticateToken(req: CommonRequest, res: CommonResponse, next: NextFunction) {
+
+    console.log("Authenticating... Body:", req.body);
+
+    const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1];
     if (!token)
         return res.status(401).json({ message: "No access token!" });
@@ -20,7 +21,7 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
             return res.status(403).json({ message: error.message });
         }
 
-        req.body.userId = (payload as JwtPayload).sub;
+        res.locals.userId = (payload as JwtPayload).sub;
         next();
     });
 }
