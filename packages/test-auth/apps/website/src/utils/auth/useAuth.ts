@@ -21,6 +21,8 @@ export function useAuth(): Auth {
             setIsInitializing(false);
         });
 
+        // https://supabase.com/docs/reference/javascript/auth-onauthstatechange
+        // Auto-refreshes access tokens
         const { data } = supabaseClient.auth.onAuthStateChange((_event, session) => {
             setSession(session);
             console.log("session", session);
