@@ -56,7 +56,7 @@ export class AuthClient {
             provider: 'google',
             options: {
                 // Must be specified in redirect URLs in Supabase dashboard
-                // redirectTo: "https://supabase.com/docs/guides/auth"
+                redirectTo: import.meta.env.VITE_SITE_URL
             }
         })
 
