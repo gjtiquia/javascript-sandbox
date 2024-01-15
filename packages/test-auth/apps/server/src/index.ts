@@ -1,44 +1,18 @@
-import express, { NextFunction, Request, Response } from "express"
+import express from "express"
 import dotenv from "dotenv";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { authenticateToken } from "./middlewares/authenticateToken";
+import { profileController } from "./controllers/profileController";
 
 dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(express.json());
+app.use(authenticateToken); // Every request is authenticated
 
-app.get('/profile', authenticateToken, (req, res) => {
-
-    const userId = req.body.userId;
-    console.log("GET /profile => userId:", userId);
-
-    res.json({ userId: req.body.userId })
-})
-
-interface RequestHeader {
-    authorization?: string
-}
-
-function authenticateToken(req: Request, res: Response, next: NextFunction) {
-
-    const authHeader = (req.headers as RequestHeader).authorization;
-    const token = authHeader && authHeader.split(' ')[1]
-    if (!token)
-        return res.status(401).json({ message: "No access token!" });
-
-
-    const jwtSecret = process.env.AUTH_JWT_SECRET as string;
-    jwt.verify(token, jwtSecret, (error, payload) => {
-
-        if (error) {
-            console.log(error)
-            return res.status(403).json({ message: error.message })
-        }
-
-        req.body.userId = (payload as JwtPayload).sub;
-        next()
-    })
-}
+// Routes
+app.get('/profile', profileController)
 
 const PORT = process.env.PORT;
 
