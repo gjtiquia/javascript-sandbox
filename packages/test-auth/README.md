@@ -1,5 +1,9 @@
 # Test Auth
 
+Deployed website on Netlify at <https://test-auth-website.netlify.app/>.
+
+Deployed server at Railway ([Railway Docs](https://railway.app/)).
+
 ## Notes
 
 use JWT from Supabase in client, send to server, which should have the JWT secret from supabase to verify the token
