@@ -12,7 +12,7 @@ export function MainPage(props: MainPageProps) {
         queryKey: ["profileQuery", props.authSession.userId],
         queryFn: async () => {
 
-            const response = await fetch("http://localhost:3000/profile", {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/profile", {
                 method: "get",
                 headers: new Headers({
                     "Authorization": "Bearer " + props.authSession.accessToken
@@ -33,11 +33,26 @@ export function MainPage(props: MainPageProps) {
     if (profileQuery.isPending)
         return <p>Fetching data...</p>
 
+    if (profileQuery.isError)
+        return <div>
+            <p>Error: {profileQuery.error.message}</p>
+            <button onClick={() => profileQuery.refetch()}>
+                Retry
+            </button>
+            <button onClick={() => signOutMutation.mutate()}>
+                Sign Out
+            </button>
+        </div>
+
     return (<div>
         <p>Signed In!</p>
         <p>Email: {props.authSession.email}</p>
         <p>User ID: {props.authSession.userId}</p>
 
+        <div>
+            <span>API URL: </span>
+            <span>{import.meta.env.VITE_API_URL}</span>
+        </div>
         <p>Backend Data:</p>
         <p>{JSON.stringify(profileQuery.data)}</p>
 
