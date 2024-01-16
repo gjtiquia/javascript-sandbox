@@ -9,6 +9,11 @@ An express server for querying databases.
 `npm run db:migration:generate`: Generates migration files with Drizzle
 `npm run db:migration:run`: Runs the migrations with Drizzle
 `npm run db:migration:drop`: Delete previously generated migrations from migrations folder
+`npm run db:studio`: Opens Drizzle Studio
+
+## Notes
+
+Drizzle Studio currently in beta, requires package `pg` installed even though not used in code.
 
 ## References
 
