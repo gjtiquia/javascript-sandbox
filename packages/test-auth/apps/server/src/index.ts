@@ -1,10 +1,8 @@
+import "dotenv/config" // import from .env before anything else!
 import express from "express"
 import cors from "cors";
-import dotenv from "dotenv";
 import { authenticateToken } from "./middlewares/authenticateToken";
-import { profileController } from "./controllers/profileController";
-
-dotenv.config();
+import { profileControllerAsync } from "./controllers/profileController";
 
 const app = express();
 
@@ -20,7 +18,7 @@ app.use(express.json());
 app.use(authenticateToken); // Every request is authenticated
 
 // Routes
-app.get('/profile', profileController)
+app.get('/profile', profileControllerAsync)
 
 const PORT = process.env.PORT;
 
