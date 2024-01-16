@@ -8,7 +8,7 @@
         "db:push": "drizzle-kit push:pg",
         "db:pull": "drizzle-kit introspect:pg",
         "db:migration:generate": "drizzle-kit generate:pg",
-        "db:migration:run": "tsx ./migrate.ts",
+        "db:migration:run": "npx tsx migration.ts",
         "db:migration:drop": "drizzle-kit drop",
         "db:studio": "drizzle-kit studio"
     },

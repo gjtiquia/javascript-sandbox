@@ -12,5 +12,16 @@ import { uuid, pgTable, serial, text } from "drizzle-orm/pg-core";
 
 export const users = pgTable('users', {
     id: uuid("id")
-        .primaryKey()
+        .primaryKey(),
 });
+
+export const profiles = pgTable("profiles", {
+    id: serial("id")
+        .primaryKey(),
+
+    user_id: uuid("user_id")
+        .references(() => users.id) // foreign key
+        .notNull(),
+
+    bio: text("bio")
+})
