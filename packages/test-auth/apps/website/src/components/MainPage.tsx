@@ -1,5 +1,6 @@
 import { AuthClient, AuthSession } from "../utils/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { trpc } from "../utils/trpc";
 
 interface MainPageProps {
     authClient: AuthClient,
@@ -8,20 +9,7 @@ interface MainPageProps {
 
 export function MainPage(props: MainPageProps) {
 
-    const profileQuery = useQuery({
-        queryKey: ["profileQuery", props.authSession.userId],
-        queryFn: async () => {
-
-            const response = await fetch(import.meta.env.VITE_API_URL + "/profile", {
-                method: "get",
-                headers: new Headers({
-                    "Authorization": "Bearer " + props.authSession.accessToken
-                }),
-            });
-
-            return await response.json();
-        }
-    })
+    const profileQuery = trpc.getProfile.useQuery()
 
     const signOutMutation = useMutation({
         mutationFn: async () => await props.authClient.signOutAsync()

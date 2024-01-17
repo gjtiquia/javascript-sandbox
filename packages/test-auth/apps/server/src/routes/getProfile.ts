@@ -1,10 +1,8 @@
 import { eq } from "drizzle-orm";
 import { db } from "../database";
 import { profiles, users } from "../database/schema";
-import { CommonRequest, CommonResponse } from "../types";
 
-export async function profileControllerAsync(req: CommonRequest, res: CommonResponse) {
-    const userId = res.locals.userId as string;
+export async function getProfileAsync(userId: string) {
 
     console.log("GET /profile => userId:", userId);
 
@@ -22,12 +20,11 @@ export async function profileControllerAsync(req: CommonRequest, res: CommonResp
     if (existingProfiles.length === 0) {
         console.log(`User ${userId} does not have a profile! Creating one...`)
 
-        const profile = await createNewProfileAsync(userId);
-        return res.json(profile);
+        const newProfiles = await createNewProfileAsync(userId);
+        return newProfiles[0];
     }
 
-    const profile = existingProfiles[0];
-    return res.json(profile)
+    return existingProfiles[0]
 }
 
 async function createNewUserAsync(userId: string) {

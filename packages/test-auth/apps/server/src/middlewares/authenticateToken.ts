@@ -3,6 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import type { CommonRequest, CommonResponse } from "../types";
 import { env } from "../environment";
 
+// TODO : Put this middleware in trpc, so no need to manually send the error codes
 
 export function authenticateToken(req: CommonRequest, res: CommonResponse, next: NextFunction) {
 
