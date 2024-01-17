@@ -41,8 +41,13 @@ export function MainPage(props: MainPageProps) {
             <span>API URL: </span>
             <span>{import.meta.env.VITE_API_URL}</span>
         </div>
-        <p>Backend Data:</p>
-        <p>{JSON.stringify(profileQuery.data)}</p>
+
+        <div>
+            <h3>Profile</h3>
+            <p>ID: {profileQuery.data.id}</p>
+            <p>User ID: {profileQuery.data.user_id}</p>
+            <p>Bio: {profileQuery.data.bio}</p>
+        </div>
 
         <button onClick={() => signOutMutation.mutate()}>
             Sign Out

@@ -14,14 +14,13 @@ export function AppContents(props: AppContentsProps) {
     if (props.isAuthInitializing)
         return <p>Auth Initializing...</p>;
 
-    return (
-        <>
-            <h1>Test Auth</h1>
+    return <>
+        <h1>Test Auth</h1>
 
-            {props.isAuthSignedIn ?
-                <MainPage authClient={props.authClient} authSession={props.authSession!} />
-                :
-                <SignInPage authClient={props.authClient} />}
-        </>
-    );
+        {props.isAuthSignedIn ?
+            <MainPage authClient={props.authClient} authSession={props.authSession!} />
+            :
+            <SignInPage authClient={props.authClient} />
+        }
+    </>;
 }
