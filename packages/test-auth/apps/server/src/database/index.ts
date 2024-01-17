@@ -1,7 +1,8 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+import { env } from '../environment';
 
-const postgresConnectionUrl = process.env.POSTGRES_DATABASE_URL;
+const postgresConnectionUrl = env.POSTGRES_DATABASE_URL;
 if (!postgresConnectionUrl) {
     console.error("Postgres Connection URL undefined!");
 }

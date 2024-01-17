@@ -1,6 +1,7 @@
 import type { NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import type { CommonRequest, CommonResponse } from "../types";
+import { env } from "../environment";
 
 
 export function authenticateToken(req: CommonRequest, res: CommonResponse, next: NextFunction) {
@@ -10,7 +11,7 @@ export function authenticateToken(req: CommonRequest, res: CommonResponse, next:
     if (!token)
         return res.status(401).json({ message: "No access token!" });
 
-    const jwtSecret = process.env.AUTH_JWT_SECRET as string;
+    const jwtSecret = env.AUTH_JWT_SECRET;
     jwt.verify(token, jwtSecret, (error, payload) => {
 
         if (error) {
