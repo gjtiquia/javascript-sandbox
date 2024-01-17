@@ -4,14 +4,7 @@ import { supabaseClient } from "./supabase";
 import { AuthClient } from "./AuthClient";
 import { AuthSession } from "./AuthSession";
 
-interface Auth {
-    isInitializing: boolean
-    isSignedIn: boolean
-    client: AuthClient,
-    session?: AuthSession
-}
-
-export function useAuth(): Auth {
+export function useAuth() {
     const [isInitializing, setIsInitializing] = useState(true);
     const [session, setSession] = useState<Session | null>(null);
 
