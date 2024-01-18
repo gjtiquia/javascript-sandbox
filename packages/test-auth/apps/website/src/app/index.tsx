@@ -7,7 +7,7 @@ function App() {
     const auth = useAuth();
 
     return (
-        <AppProviders accessToken={auth.session?.accessToken}>
+        <AppProviders >
             <AppContents
                 isAuthInitializing={auth.isInitializing}
                 isAuthSignedIn={auth.isSignedIn}

@@ -4,6 +4,10 @@ import { supabaseClient } from "./supabase";
 import { AuthClient } from "./AuthClient";
 import { AuthSession } from "./AuthSession";
 
+// A workaround to store the access token instead of storing them in state. Because execution order is unknown, setting it here is safer.
+let accessToken: string | undefined = undefined;
+export const getAccessToken = () => accessToken;
+
 export function useAuth() {
     const [isInitializing, setIsInitializing] = useState(true);
     const [session, setSession] = useState<Session | null>(null);
@@ -18,6 +22,7 @@ export function useAuth() {
         // Auto-refreshes access tokens
         const { data } = supabaseClient.auth.onAuthStateChange((_event, session) => {
             setSession(session);
+            accessToken = session?.access_token;
         });
 
         return () => data.subscription.unsubscribe();
