@@ -21,7 +21,7 @@ export class AuthClient {
         const response = await this._supabase.auth.signOut();
 
         if (response.error) {
-            // TODO : If error, throw new Error, which will be handled by ReactQuery
+            throw new Error(response.error.message);
         }
     }
 
@@ -40,7 +40,7 @@ export class AuthClient {
         // Note: A fake user object is returned from Supabase if an existing user already exists
 
         if (response.error) {
-            // TODO : If error, throw new Error, which will be handled by ReactQuery
+            throw new Error(response.error.message);
         }
     }
 
@@ -51,7 +51,7 @@ export class AuthClient {
         })
 
         if (response.error) {
-            // TODO : If error, throw new Error, which will be handled by ReactQuery
+            throw new Error(response.error.message);
         }
     }
 
@@ -65,7 +65,7 @@ export class AuthClient {
         })
 
         if (response.error) {
-            // TODO : If error, throw new Error, which will be handled by ReactQuery
+            throw new Error(response.error.message);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AuthClient } from "../utils/auth";
+import { useMutation } from "@tanstack/react-query";
 
 interface EmailSignInProps {
     authClient: AuthClient
@@ -7,35 +8,39 @@ interface EmailSignInProps {
 
 export function EmailSignIn(props: EmailSignInProps) {
 
-    const [isLoading, setIsLoading] = useState(false);
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    async function signUpNewUserAsync() {
-        setIsLoading(true);
+    const signUpMutation = useMutation({
+        mutationFn: async () => {
+            signInMutation.reset();
 
-        await props.authClient.signUpAsync({
-            email: email,
-            password: password
-        });
+            await props.authClient.signUpAsync({
+                email: email,
+                password: password
+            });
+        }
+    })
 
-        setIsLoading(false);
-    }
+    const signInMutation = useMutation({
+        mutationFn: async () => {
+            signUpMutation.reset();
 
-    async function signInAsync() {
-        setIsLoading(true);
+            await props.authClient.signInWithPasswordAsync({
+                email: email,
+                password: password,
+            });
+        }
+    })
 
-        await props.authClient.signInWithPasswordAsync({
-            email: email,
-            password: password,
-        });
+    if (signInMutation.isPending)
+        return <p>Signing in...</p>;
 
-        setIsLoading(false);
-    }
+    if (signUpMutation.isPending)
+        return <p>Signing up...</p>
 
-    if (isLoading)
-        return <p>Loading...</p>;
+    if (signUpMutation.isSuccess)
+        return <p>Signed up! Please check your email.</p>
 
     return <>
         <h2>Email Sign In</h2>
@@ -54,14 +59,17 @@ export function EmailSignIn(props: EmailSignInProps) {
                 onChange={e => setPassword(e.target.value)} />
         </div>
 
+        {signInMutation.isError && <p>{signInMutation.error.message}</p>}
+        {signUpMutation.isError && <p>{signUpMutation.error.message}</p>}
+
         <button
-            onClick={() => signUpNewUserAsync()}
+            onClick={() => signUpMutation.mutateAsync()}
         >
             Sign Up
         </button>
 
         <button
-            onClick={() => signInAsync()}
+            onClick={() => signInMutation.mutateAsync()}
         >
             Sign In
         </button>

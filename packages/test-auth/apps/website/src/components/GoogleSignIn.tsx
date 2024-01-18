@@ -1,27 +1,21 @@
-import { useState } from "react";
 import { AuthClient } from "../utils/auth";
+import { useMutation } from "@tanstack/react-query";
 
 export function GoogleSignIn(props: { authClient: AuthClient; }) {
 
-    const [isLoading, setIsLoading] = useState(false);
+    const signInMutation = useMutation({
+        mutationFn: async () => {
+            await props.authClient.signInWithGoogleAsync();
+        }
+    });
 
-    async function signInAsync() {
-        setIsLoading(true);
-
-        await props.authClient.signInWithGoogleAsync();
-
-        // Commented because after successful sign-in, takes time for AuthState to change and re-render
-        // Better to continue showing loading while waiting for AuthState to change
-        // setIsLoading(false);
-    }
-
-    if (isLoading)
-        return <p>Loading...</p>;
+    if (signInMutation.isPending)
+        return <p>Signing in...</p>;
 
     return <div>
         <h2>Google Sign In</h2>
         <button
-            onClick={() => signInAsync()}
+            onClick={() => signInMutation.mutateAsync()}
         >
             Sign In With Google
         </button>
