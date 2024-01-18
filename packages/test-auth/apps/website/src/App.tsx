@@ -1,4 +1,4 @@
-import { useAuth } from "../utils/auth/useAuth";
+import { useAuth } from "./utils/auth/useAuth";
 import { AppContents } from "./AppContents"
 import { AppProviders } from "./AppProviders"
 

@@ -1,6 +1,6 @@
-import { SignInPage } from "../components/SignInPage";
-import { MainPage } from "../components/MainPage";
-import { AuthClient, AuthSession } from "../utils/auth";
+import { SignInPage } from "./components/SignInPage";
+import { MainPage } from "./components/MainPage";
+import { AuthClient, AuthSession } from "./utils/auth";
 
 interface AppContentsProps {
     isAuthInitializing: boolean,

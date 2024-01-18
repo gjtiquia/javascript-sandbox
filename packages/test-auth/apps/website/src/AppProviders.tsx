@@ -1,8 +1,8 @@
 import { ReactNode, useState } from "react";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
-import { trpc } from '../utils/trpc';
-import { getAccessToken } from "../utils/auth";
+import { trpc } from './utils/trpc';
+import { getAccessToken } from "./utils/auth";
 
 interface AppProvidersProps {
     children: ReactNode

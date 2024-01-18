@@ -1,4 +1,4 @@
-import type { NextFunction, Request as ExpressRequest, Response as ExpressResponse } from "express";
+import type { Request as ExpressRequest, Response as ExpressResponse } from "express";
 
 export interface CommonRequest extends ExpressRequest {
     headers: { authorization?: string }
