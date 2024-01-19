@@ -4,6 +4,10 @@
   "description": "A repo for writing random JavaScript scripts.",
   "author": "GJTiquia",
   "license": "MIT",
+  "scripts": {
+    "clean:node_modules": "npx npkill",
+    "clean:package-lock": "rm -rf package-lock.json"
+  },
   "workspaces": [
     "packages/**"
   ]

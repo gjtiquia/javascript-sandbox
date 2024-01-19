@@ -11,6 +11,7 @@
     "build:website": "cd apps/website && npm run build",
     "build:server": "cd apps/server && npm run build",
     "dev:website": "cd apps/website && npm run dev:host",
+    "dev:mobile": "cd apps/mobile && npm run dev",
     "dev:server": "cd apps/server && npm run dev",
     "preview:website": "cd apps/website && npm run preview"
   }
