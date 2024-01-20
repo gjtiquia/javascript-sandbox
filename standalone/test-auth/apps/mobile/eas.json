@@ -3,14 +3,25 @@
     "version": ">= 6.1.0"
   },
   "build": {
+    "base": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://ckeiycmrtwtawuhndsrd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_PUBLIC_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrZWl5Y21ydHd0YXd1aG5kc3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMjg0MzcsImV4cCI6MjAyMDgwNDQzN30.y8rYCWsWB9YLfboLFxUB0rV4_jIJFYCYaSl7cF0z56E",
+        "EXPO_PUBLIC_AUTH_WEB_CLIENT_ID": "151944926026-ltpsvk9ovk4h56db9glvl46lcq796qsn.apps.googleusercontent.com"
+      }
+    },
     "development": {
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "extends": "base",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "extends": "base"
+    }
   },
   "submit": {
     "production": {}
