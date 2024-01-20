@@ -13,33 +13,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Email
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-        />
-
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Password
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          onChangeText={setPassword}
-          value={password}
-        />
-
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Google Sign In
+          Hello World!
         </Text>
       </View>
     </View>

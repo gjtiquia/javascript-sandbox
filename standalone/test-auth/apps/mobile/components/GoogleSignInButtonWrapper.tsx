@@ -1,70 +1,87 @@
 import {
     GoogleSignin,
     GoogleSigninButton,
+    User,
     statusCodes,
 } from '@react-native-google-signin/google-signin'
 import { supabase } from '../lib/supabase'
+import { Button, Text } from 'react-native';
+import { useState } from 'react';
 
 export default function GoogleSigninButtonWrapper() {
+
+    const [user, setUser] = useState<User | null>(null);
+
     const supabaseAuthWebClientId = process.env.EXPO_PUBLIC_AUTH_WEB_CLIENT_ID;
 
-    // TODO : SHOULD CONFIGURE ANDROID CLIENT ID!
-
     GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-        webClientId: supabaseAuthWebClientId,
+        webClientId: supabaseAuthWebClientId, // Use web client! Not the android/ios client!
     })
 
-    return (
-        <GoogleSigninButton
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={async () => {
+    return <>
+        <Text style={{ color: "white" }} >Google Signed In: {user === null ? "False" : "True"}</Text>
 
-                console.log("Pressed");
+        {!user &&
 
-                try {
-                    await GoogleSignin.hasPlayServices()
-                    console.log("hasPlayServices");
+            <GoogleSigninButton
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={async () => {
 
-                    console.log("signing in...");
-                    const userInfo = await GoogleSignin.signIn()
-                    console.log("signed in", userInfo);
+                    try {
+                        await GoogleSignin.hasPlayServices()
 
-                    if (userInfo.idToken) {
+                        const user = await GoogleSignin.signIn()
+                        setUser(user);
 
-                        console.log("Received id token from Google", userInfo.idToken)
+                        if (user.idToken) {
 
-                        const { data, error } = await supabase.auth.signInWithIdToken({
-                            provider: 'google',
-                            token: userInfo.idToken,
-                        })
+                            const { data, error } = await supabase.auth.signInWithIdToken({
+                                provider: 'google',
+                                token: user.idToken,
+                            })
 
-                        console.log(error, data)
+                            // console.log(error, data)
 
-                    } else {
-                        throw new Error('no ID token present!')
+                        } else {
+                            throw new Error('no ID token present!')
+                        }
+
+                    } catch (error: any) {
+                        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                            // user cancelled the login flow
+                            console.error("SIGN_IN_CANCELLED", error)
+
+                        } else if (error.code === statusCodes.IN_PROGRESS) {
+                            // operation (e.g. sign in) is in progress already
+                            console.error("IN_PROGRESS", error)
+
+                        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                            // play services not available or outdated
+                            console.error("PLAY_SERVICES_NOT_AVAILABLE", error)
+
+                        } else {
+                            // some other error happened
+                            console.error("something wrong happened", error)
+                        }
                     }
+                }}
+            />
+        }
 
-                } catch (error: any) {
-                    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                        // user cancelled the login flow
-                        console.error("SIGN_IN_CANCELLED", error)
-
-                    } else if (error.code === statusCodes.IN_PROGRESS) {
-                        // operation (e.g. sign in) is in progress already
-                        console.error("IN_PROGRESS", error)
-
-                    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                        // play services not available or outdated
-                        console.error("PLAY_SERVICES_NOT_AVAILABLE", error)
-
-                    } else {
-                        // some other error happened
-                        console.error("something wrong happened", error)
+        {user &&
+            <Button
+                title='Google Sign Out'
+                onPress={async () => {
+                    try {
+                        await GoogleSignin.signOut();
+                        setUser(null);
+                    } catch (error) {
+                        console.error(error);
                     }
-                }
-            }}
-        />
-    )
+                }}
+            />
+        }
+
+    </>
 }

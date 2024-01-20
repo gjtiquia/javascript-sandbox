@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Button, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
@@ -6,6 +6,7 @@ import GoogleSigninButtonWrapper from '@/components/GoogleSignInButtonWrapper';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Session } from '@supabase/supabase-js';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export default function TabOneScreen() {
 
@@ -23,11 +24,19 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <Text style={styles.title}>Login Page</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <GoogleSigninButtonWrapper />
-      <Text style={styles.title}>Signed In: {session == null ? "False" : "True"}</Text>
-      {session && session.user && <Text>{session.user.id}</Text>}
+      <Text style={styles.title}>Supabase Signed In: {session == null ? "False" : "True"}</Text>
+      {session && session.user && <Text>User ID: {session.user.id}</Text>}
+      {session &&
+        <Button
+          title='Sign Out Supabase Auth'
+          onPress={async () => {
+            await supabase.auth.signOut();
+          }}
+        />
+      }
     </View>
   );
 }

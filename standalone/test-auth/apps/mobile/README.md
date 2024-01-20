@@ -40,3 +40,18 @@ Reference: <https://docs.expo.dev/build/setup/>
   - followed prompts and setup for android
   - did not do iOS because requires developer account
   - (note: it did not use "env" configuration, need to wait for build to see if Expo Router works)
+
+## Google Auth setup notes (Android)
+
+- In Google Cloud console, APIs & Services > Credentials, create a new OAuth Client ID
+  - Android
+  - package name: same as the one for EAS build (can see in `app.json`)
+  - SHA-1 certificate can get from running `eas credentials` if used EAS build
+    - Each profile (development, preview, production) may have a different SHA-1 certificate
+    - Uploading to Google Play Store will have another public SHA-1 certificate
+      - This one can actually be verified app ownership in Cloud console, if uploaded to Play Store
+
+- In Google Cloud console, APIs & Services > OAuth consent screen, add a email to Test Users
+
+- Web client should also be setup, this is the one to pass into the `GoogleSignIn.configure()`
+  - NOT the android client ID!
