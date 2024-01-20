@@ -6,6 +6,7 @@
     "start": "expo start",
     "dev": "expo start",
     "build:development": "eas build --profile development",
+    "build:preview": "eas build --profile preview",
     "build:production": "eas build",
     "android": "expo start --android",
     "ios": "expo start --ios",
