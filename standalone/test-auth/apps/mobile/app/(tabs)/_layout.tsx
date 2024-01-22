@@ -1,59 +1,51 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { ReactNode, useState } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink } from '@trpc/client';
+import { trpc } from '@/lib/trpc';
+import { TabLayout } from '../../components/TabLayout';
+import { getAccessToken } from "@/lib/accessToken";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+interface AppProvidersProps {
+  children: ReactNode
 }
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const url = "http://192.168.50.188:3000";
+// const url = "http://localhost:3000";
+
+function AppProviders(props: AppProvidersProps) {
+
+  const [queryClient] = useState(() => new QueryClient());
+  const [trpcClient] = useState(() => createTrpcClient())
+
+  function createTrpcClient() {
+
+    return trpc.createClient({
+      links: [
+        httpBatchLink({
+          url: url,
+          headers() {
+            return {
+              Authorization: "Bearer " + getAccessToken()
+            };
+          }
+        }),
+      ],
+    })
+  }
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        {props.children}
+      </QueryClientProvider>
+    </trpc.Provider>
+  )
+}
+
+export default function WrappedTabLayout() {
+  return (
+    <AppProviders>
+      <TabLayout />
+    </AppProviders>
+  )
 }
